@@ -18,7 +18,6 @@ import static base.PageBase.WAIT_TIME;
 
 public class MyCartPage extends TestBase {
     RemoteWebDriver driver;
-    private String productsCss=".productGroup .prod";
 
     public MyCartPage(RemoteWebDriver driver) {
         this.driver = driver;
