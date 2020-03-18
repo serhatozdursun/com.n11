@@ -1,5 +1,6 @@
 package pages;
 
+import base.PageBase;
 import base.TestBase;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -37,9 +38,11 @@ public class SearchResultPage extends TestBase {
     public List<WebElement> productList;
 
 
-    public SearchResultPage assertSearchPageIsLoad() throws IOException {
+    public SearchResultPage assertSearchPageIsLoad() throws IOException, InterruptedException {
         ReadTestData readTestData = new ReadTestData();
-        Assert.assertTrue(driver.getCurrentUrl().contains("arama?q=" + readTestData.getSearchKeyword()));
+        if (PageBase.BROWSER.equalsIgnoreCase("firefox"))
+            Thread.sleep(1500);
+        Assert.assertTrue("link hatalı; " + driver.getCurrentUrl(), driver.getCurrentUrl().contains("arama?q=" + readTestData.getSearchKeyword()));
         assertSearchResultIsDisplayed();
         return this;
     }
@@ -66,6 +69,8 @@ public class SearchResultPage extends TestBase {
     }
 
     public ProductDetailPage clickRandomProduct() throws InterruptedException, IOException {
+        if (PageBase.BROWSER.equalsIgnoreCase("firefox"))
+            Thread.sleep(1200);
         Random random = new Random();
         int elmindex = productList.size() - 1;
         WebElement randomElm = productList.get(random.nextInt(elmindex));
@@ -78,7 +83,7 @@ public class SearchResultPage extends TestBase {
         writeToTxt.writeToTxt(txtFile, productNamme);
         writeToTxt.writeToTxt(txtFile, productPrice);
         txtFile.close();
-        moveElement(driver, randomElm.findElement(By.cssSelector(".productName")));
+        //moveElement(driver, randomElm.findElement(By.cssSelector(".productName")));
         randomElm.findElement(By.cssSelector(".productName")).click();
         return new ProductDetailPage(driver);
     }

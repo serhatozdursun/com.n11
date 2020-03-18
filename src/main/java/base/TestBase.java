@@ -33,24 +33,50 @@ public class TestBase {
 
     public void moveElement(RemoteWebDriver driver, WebElement webElement) throws InterruptedException {
         Actions actions = new Actions(driver);
-        if (PageBase.BROWSER.equalsIgnoreCase("chrome"))
+        System.out.println(webElement.getLocation().getX() + (webElement.getSize().getWidth() / 2));
+        System.out.println(webElement.getLocation().getY() + (webElement.getSize().getHeight() / 2));
+        try {
+            scrollToOfset(driver, webElement.getLocation().x, webElement.getLocation().y);
+            Thread.sleep(500);
             actions.moveToElement(webElement).build().perform();
-        else if (PageBase.BROWSER.equalsIgnoreCase("firefox")) {
-            int x = webElement.getLocation().getX() + (webElement.getSize().getWidth() / 2);
-            int y = webElement.getLocation().getY() + (webElement.getSize().getHeight() / 2);
-
-            try {
-                actions.moveByOffset(x, y).build().perform();
-            } catch (MoveTargetOutOfBoundsException e) {
-                scrollToElement(driver, webElement);
-                actions.moveToElement(webElement).build().perform();
-            }
-
-            Thread.sleep(1000);
+        } catch (MoveTargetOutOfBoundsException me) {
+            scrollToElement(driver, webElement);
+            Thread.sleep(500);
+            actions.moveByOffset(webElement.getLocation().x, webElement.getLocation().y).build().perform();
         }
+        Thread.sleep(1000);
     }
 
     public void scrollToElement(RemoteWebDriver driver, WebElement webElement) {
         javascriptExecutor(driver).executeScript("window.scrollTo(" + webElement.getLocation().x + "," + webElement.getLocation().y + ");");
+    }
+
+    public void scrollToOfset(RemoteWebDriver driver, int x, int y) {
+        javascriptExecutor(driver).executeScript("window.scrollTo(" + x + "," + y + ");");
+    }
+
+    public static void waitForDOMLoad(RemoteWebDriver driver) {
+        try {
+            JavascriptExecutor js = driver;
+            Boolean readyState;
+            Boolean jqueryDefined;
+            for (int i = 0; i <= 60; i++) {
+                readyState = js.executeScript("return document.readyState").toString() != "complete";
+                jqueryDefined = js.executeScript("return typeof jQuery").toString() != "function";
+
+                if (readyState && jqueryDefined) {
+                    break;
+                } else {
+                    Thread.sleep(100);
+                }
+            }
+
+        } catch (Exception e) {
+            try {
+                throw e;
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+        }
     }
 }

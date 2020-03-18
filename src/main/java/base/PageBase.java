@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class PageBase {
     public RemoteWebDriver driver;
     public static int WAIT_TIME = 15;
-    public static int IMPLICITYLY_WAIT = 15;
+    public static int IMPLICITYLY_WAIT = 20;
     private static int PAGE_LOAD_TIMEOUT = 30;
     public static String BROWSER;
 
