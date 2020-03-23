@@ -43,7 +43,7 @@ public class MyCartPage extends TestBase {
     public List<WebElement> prodDescription;
 
     @FindBy(css = ".title")
-    private WebElement title;
+    private List<WebElement> title;
 
     public MyCartPage assertMyCartPageIsLoad() {
         assertBasketIsDisplayed();
@@ -110,7 +110,7 @@ public class MyCartPage extends TestBase {
     }
 
     public MyCartPage checkBasketIsEmpty() {
-        Assert.assertEquals("Sepetiniz Boş", title.getText());
+        Assert.assertEquals("Sepetiniz Boş", title.get(1).getText());
         return this;
     }
 
