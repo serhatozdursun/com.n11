@@ -33,8 +33,6 @@ public class TestBase {
 
     public void moveElement(RemoteWebDriver driver, WebElement webElement) throws InterruptedException {
         Actions actions = new Actions(driver);
-        System.out.println(webElement.getLocation().getX() + (webElement.getSize().getWidth() / 2));
-        System.out.println(webElement.getLocation().getY() + (webElement.getSize().getHeight() / 2));
         try {
             scrollToOfset(driver, webElement.getLocation().x, webElement.getLocation().y);
             Thread.sleep(500);

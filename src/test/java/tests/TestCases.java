@@ -31,7 +31,5 @@ public class TestCases extends PageBase {
                 .checkQuantity(2)
                 .removeAllElement()
                 .checkBasketIsEmpty();
-
-
     }
 }

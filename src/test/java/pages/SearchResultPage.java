@@ -83,8 +83,9 @@ public class SearchResultPage extends TestBase {
         writeToTxt.writeToTxt(txtFile, productNamme);
         writeToTxt.writeToTxt(txtFile, productPrice);
         txtFile.close();
-        //moveElement(driver, randomElm.findElement(By.cssSelector(".productName")));
-        randomElm.findElement(By.cssSelector(".productName")).click();
+        WebElement randomProductName= randomElm.findElement(By.cssSelector(".productName"));
+        moveElement(driver,randomProductName);
+        randomProductName.click();
         return new ProductDetailPage(driver);
     }
 }
